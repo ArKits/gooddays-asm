@@ -9,48 +9,46 @@ INCLUDE Irvine32.inc
 ExitProcess PROTO, dwExitCode:DWORD
 
 .data
-prime_array DWORD 1000 DUP(?)
-wow DWORD 0
-NumOfFactors DWORD 0
-checkMe DWORD 7
+prime_array DWORD 1000 DUP(0)			; Store primes
+NumOfFactors DWORD 0					; Store number of factors
+checkMe DWORD 0							; Store the number to check	
 
 .code
 
 main PROC
 
-mov ecx, 100
-mov eax, 5
-mov esi, OFFSET prime_array 
+mov ecx, 1000							; Count till 1000 number	
+mov eax, 5								; Start from 5
+mov esi, OFFSET prime_array				; Offset array
 
 L1:
-mov checkMe, eax
-push ecx
+mov checkMe, eax						; Set the number to check
+push ecx								; Save counter
 
-	mov ecx, checkMe
-	dec ecx
-	mov NumOfFactors, 0
+	mov ecx, checkMe					; Set counter to checking number
+	dec ecx								; Dec by 1 to avoid checking by itself
+	mov NumOfFactors, 0					; Reset NumOfFactors
 
 	L2:
 	xor edx, edx
 	mov eax, checkMe
-	div ecx
+	div ecx								; Divide checkMe by counter
 
-	.if edx == 0
+	.if edx == 0						; If no remainder, increment NumOfFactors
 	inc NumOfFactors
 	.endif
 
 	loop L2
 
-	.if NumOfFactors == 1
-	mov eax, checkMe
-	mov wow, eax
-	mov prime_array[esi + 4], eax
+	pop ecx								; Revert to original loop counter
+
+	.if NumOfFactors == 1				; If there are only than 1 factor, number is prime. There will be only 1 avoid factor which is 1. 
+	mov eax, checkMe					; Add to array
+	mov [esi + ecx * 4], eax 
 	.endif
 
-
-pop ecx
-inc eax
-loop L1
+	inc eax
+	loop L1
 
 INVOKE ExitProcess,0
 
