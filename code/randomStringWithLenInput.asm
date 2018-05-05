@@ -10,13 +10,13 @@ strLen DWORD ?
 
 .code
     main PROC
-        call Clrscr                 ; Clear screen
+        call Clrscr                 	; Clear screen
 
 		mov edx, OFFSET str1	
-		call WriteString		    ; Print string	
-		call ReadInt                ; Input string length
+		call WriteString		    	; Print string	
+		call ReadInt                	; Input string length
 
-		mov strLen, eax             ; Save string length
+		mov strLen, eax             	; Save string length
 
         mov esi, offset randStrHere     ; Set array
         mov ecx, 20                     ; Set counter
