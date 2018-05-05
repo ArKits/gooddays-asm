@@ -1,56 +1,61 @@
+; Prime Numbers from 5 to 1000
+
 INCLUDE Irvine32.inc
 
+.386
+
+.model flat,stdcall
+.stack 4096
+ExitProcess PROTO, dwExitCode:DWORD
 
 .data
-charVal    BYTE 'A'
-
-rowCol LABEL WORD
-column BYTE 0
-row    BYTE 0
+prime_array DWORD 1000 DUP(0)			; Store primes
+NumOfFactors DWORD 0					; Store number of factors
+checkMe DWORD 0							; Store the number to check	
+prettyprint DWORD " ,"					; Store number of factors
 
 .code
+
 main PROC
 
-mov  ecx,10	; loop 6 times
+mov ecx, 1000							; Count till 1000 number	
+mov eax, 1								; Start from 1
+mov esi, OFFSET prime_array				; Offset array
 
-L0:	push ecx		; save loop counter
-	mov  rowCol,0	; initialize row/column variable
-	mov  dx,0		; set cursor at 0,0
-	call Gotoxy
+L1:
+mov checkMe, eax						; Set the number to check
+push ecx								; Save counter
 
-	mov  eax,0		; starting color: black on black
-	mov  ecx,2		; 16 possible background colors
+	mov ecx, checkMe					; Set counter to checking number
+	mov NumOfFactors, 0					; Reset NumOfFactors
 
-L1:	push ecx		; save loop counter
-	mov  dx,rowCol	; get ready for a new row
-	call Gotoxy
-	mov  ecx,2		; 16 possible foreground colors
+	L2:
+	xor edx, edx
+	mov eax, checkMe
+	div ecx								; Divide checkMe by counter
 
-L2:	call SetTextColor	; set the color
-	push eax
-	mov  al,charVal		; character to be displayed
-	call WriteChar		; write it to the console
-	pop  eax
-	inc  al			; next foreground color
-	loop L2			; finished with the row
+	.if edx == 0						; If no remainder, increment NumOfFactors
+	inc NumOfFactors
+	.endif
 
-; The first time this line is reached, the color byte equals 10h,
-; which gives us the next background color (and resets the foreground
-; to black)
+	loop L2
 
-	inc  row	; go to next row
-	pop  ecx	; restore loop counter
+	pop ecx								; Revert to original loop counter
+
+	.if NumOfFactors == 2	
+	mov edx, OFFSET checkMe				; Print to Console
+	call WriteDec
+	mov edx, OFFSET prettyprint			; Print it pretty
+	call WriteString
+	mov eax, checkMe					; Add to array
+	mov [esi + ecx * 4], eax 
+	.endif
+
+	inc eax
 	loop L1
 
-	mov  eax, 1000 ; delay for a while
-	call Delay
-	inc  charVal	; next character
-	pop  ecx	; restore loop counter
-	loop L0	; go to next character
+INVOKE ExitProcess,0
 
-	mov  eax,lightGray	; restore screen to normal color
-	call SetTextColor
-
-	exit
 main ENDP
+
 END main
