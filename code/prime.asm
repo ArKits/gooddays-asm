@@ -18,7 +18,7 @@ checkMe DWORD 0							; Store the number to check
 main PROC
 
 mov ecx, 1000							; Count till 1000 number	
-mov eax, 5								; Start from 5
+mov eax, 1							; Start from 5
 mov esi, OFFSET prime_array				; Offset array
 
 L1:
@@ -26,7 +26,6 @@ mov checkMe, eax						; Set the number to check
 push ecx								; Save counter
 
 	mov ecx, checkMe					; Set counter to checking number
-	dec ecx								; Dec by 1 to avoid checking by itself
 	mov NumOfFactors, 0					; Reset NumOfFactors
 
 	L2:
@@ -42,7 +41,7 @@ push ecx								; Save counter
 
 	pop ecx								; Revert to original loop counter
 
-	.if NumOfFactors == 1				; If there are only than 1 factor, number is prime. There will be only 1 avoid factor which is 1. 
+	.if NumOfFactors == 2				
 	mov eax, checkMe					; Add to array
 	mov [esi + ecx * 4], eax 
 	.endif
