@@ -44,7 +44,7 @@ push ecx						; Save counter
 
 	.if NumOfFactors == 2	
 	mov edx, OFFSET checkMe				; Print to Console
-	call WriteInt
+	call WriteDec					
 	mov edx, OFFSET prettyprint			; Print it pretty
 	call WriteString
 	mov eax, checkMe				; Add to array
