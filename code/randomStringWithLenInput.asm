@@ -1,4 +1,5 @@
 ; Random String with Input
+; Prints random strings of length provided by user
 
 INCLUDE Irvine32.inc
 
@@ -10,18 +11,18 @@ strLen DWORD ?
 
 .code
     main PROC
-        call Clrscr                 	; Clear screen
+        call Clrscr                 			; Clear screen
 
 		mov edx, OFFSET str1	
 		call WriteString		    	; Print string	
-		call ReadInt                	; Input string length
+		call ReadInt                		; Input string length
 
-		mov strLen, eax             	; Save string length
+		mov strLen, eax             		; Save string length
 
-        mov esi, offset randStrHere     ; Set array
-        mov ecx, 20                     ; Set counter
+        mov esi, offset randStrHere     		; Set array
+        mov ecx, 20                     		; Set counter
         L1:
-            call RandoStringu           ; Call RSG
+            call RandoStringu           		; Call RSG
         Loop L1
         exit
     main ENDP
