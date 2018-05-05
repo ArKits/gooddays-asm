@@ -12,9 +12,9 @@ main PROC
 		mov eax, 10					; Set starting colour
 
 L1:
-		call SetTextColor			; Set colour
-		mov edx, OFFSET str1		; Setup printing
-		call WriteString			; Print String
+		call SetTextColor				; Set colour
+		mov edx, OFFSET str1				; Setup printing
+		call WriteString				; Print String
 		call Crlf					; Newline
 		inc eax						; Increment to next colour
 loop L1
