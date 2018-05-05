@@ -1,4 +1,5 @@
-; Draw Text Colors
+; printTextWithDifferentColor
+; Print str1 with different colors
 
 INCLUDE Irvine32.inc
 
