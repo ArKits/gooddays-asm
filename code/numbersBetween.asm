@@ -1,4 +1,4 @@
-; Between 100 and 1000 or less than -100 and odd
+; Only prints numbers between 100 and 1000, or less than -100 and odd.
 
 INCLUDE Irvine32.inc
 
