@@ -31,9 +31,9 @@ jl next
 cmp dword ptr [esi], 1000
 jg next
 
-test dword ptr [esi], 1 ; Odd Number
+test dword ptr [esi], 1         ; Odd Number
 jnz next
-cmp dword ptr [esi], -100 ; Less than -100
+cmp dword ptr [esi], -100       ; Less than -100
 jg next
 
 WriteMe:
