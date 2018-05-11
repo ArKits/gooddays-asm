@@ -1,4 +1,4 @@
-; Prime Numbers from 5 to 1000
+; Finds Prime Numbers using Sieve of Eratosthenes technique
 
 INCLUDE Irvine32.inc
 
