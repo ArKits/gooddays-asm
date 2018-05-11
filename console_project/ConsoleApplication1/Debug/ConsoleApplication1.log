@@ -1,2 +1,3 @@
 ﻿  Assembling Source.asm...
+Source.asm(7): warning A4011: multiple .MODEL directives found : .MODEL ignored
   ConsoleApplication1.vcxproj -> C:\Users\archi\Documents\GitHub\gooddays-asm\console_project\Debug\ConsoleApplication1.exe

@@ -1,4 +1,4 @@
-; Print a string with SetTextColor
+; Number of Fibs Calculated Properly
 
 INCLUDE Irvine32.inc
 
@@ -37,27 +37,20 @@ main PROC
 	add esi, TYPE fibo
 	loop L1
 
-	mov edx, OFFSET fibo
-	call WriteDec
+	cmp eax, last
+	jne notgood
+	mov edx, OFFSET str1
+	call WriteString
+	call Crlf
+	jmp quit
+
+	notgood:
+	mov edx, OFFSET str2
+	call WriteString
 	call Crlf
 
-	mov edx, OFFSET last
-	call WriteDec
-	call Crlf
 
-
-	.IF fibo == last
-		mov edx, OFFSET str1
-		call WriteString
-		call Crlf
-	.ELSE
-		mov edx, OFFSET str2
-		call WriteString
-		call Crlf
-	.ENDIF
-
-
-
+	quit:
 
     INVOKE ExitProcess,0
 main ENDP

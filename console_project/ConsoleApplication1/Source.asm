@@ -1,30 +1,58 @@
+; Print a string with SetTextColor
+
+INCLUDE Irvine32.inc
+
 .386
+
 .model flat,stdcall
 .stack 4096
-ExitProcess proto,dwExitCode:dword
+ExitProcess PROTO, dwExitCode:DWORD
 
 .data
-;Mynum byte 40 dup(1)
+count = 100
+last  = 1445263496
+fibo dword 1,1, count dup(0)
+str1 BYTE "ITS WORK!", 0
+str2 BYTE "NO WORK :(", 0
 
-Mynum byte 1,0,1,0,1,0,1,0,1,0,1,0,1
-
-answer byte ?
 
 .code
-main proc
 
-mov esi, offset Mynum
+FiboProco PROC
+mov esi, offset fibo
 mov eax, 0
-mov al, [esi] 
+mov ecx, count
+ret
+FiboProco ENDP
 
-mov ecx, 40
 
-L1:
-add al, [esi + 2]
-mov answer, al
-loop L1
+main PROC
 
-invoke ExitProcess,0
+	call FiboProco
 
-main endp
-end main
+	L1:
+	mov eax, [esi]
+	add eax, [esi + 4]
+	mov [esi + 8], eax
+	add esi, TYPE fibo
+	loop L1
+
+	cmp eax, last
+	jne notgood
+	mov edx, OFFSET str1
+	call WriteString
+	call Crlf
+	jmp quit
+
+	notgood:
+	mov edx, OFFSET str2
+	call WriteString
+	call Crlf
+
+
+	quit:
+
+    INVOKE ExitProcess,0
+main ENDP
+
+END main
