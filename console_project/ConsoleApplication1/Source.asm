@@ -1,79 +1,30 @@
-; Prime Numbers from 5 to 1000
-
-INCLUDE Irvine32.inc
-
 .386
-
 .model flat,stdcall
 .stack 4096
-ExitProcess PROTO, dwExitCode:DWORD
+ExitProcess proto,dwExitCode:dword
 
 .data
-prime_array DWORD 1000 DUP(0)			; Store primes
+;Mynum byte 40 dup(1)
+
+Mynum byte 1,0,1,0,1,0,1,0,1,0,1,0,1
+
+answer byte ?
 
 .code
+main proc
 
-main PROC
+mov esi, offset Mynum
+mov eax, 0
+mov al, [esi] 
 
-mov ecx, 1000							
-mov eax, 1	
+mov ecx, 40
 
-init_array:
-mov esi, OFFSET prime_array				
-mov [esi + eax * 4], eax 
-inc eax
-loop init_array
+L1:
+add al, [esi + 2]
+mov answer, al
+loop L1
 
-mov ecx, 1000	
-mov eax, 2	
-	
+invoke ExitProcess,0
 
-L2:
-	push ecx
-	push eax
-
-	mov ebx, eax
-	mov ecx, 1000							
-	mov eax, 2	
-
-	L1:
-	push eax
-	push ebx
-	mul ebx
-	cmp eax, 1000
-	jg next
-	mov ebx, 0
-	mov [esi + eax * 4], ebx
-	next:
-	pop ebx
-	pop eax
-	inc eax
-	loop L1
-
-	pop eax
-	pop ecx
-	inc eax
-loop L2
-
-mov ecx, 1000							
-mov eax, 1	
-mov esi, OFFSET prime_array		
-
-print_prime:
-	push eax
-	mov ebx, prime_array[eax*4]
-	mov eax, ebx
-	cmp eax, 0
-	je skip_print
-	call WriteDec
-	call crlf
-	skip_print:
-	pop eax
-	inc eax
-loop print_prime
-
-INVOKE ExitProcess,0
-
-main ENDP
-
-END main
+main endp
+end main
