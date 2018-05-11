@@ -1,7 +1,3 @@
-; College Registeration
-; Takes input of GPA and Credit, and tells the user whether the config is correct or not.
-; Handles incorrect input and timesout after 3 wrong attempts.
-
 INCLUDE Irvine32.inc
 
 .data
@@ -12,7 +8,6 @@ gpa_250 = 250
 credit_24 = 24
 credit_16 = 16
 credit_12 = 12
-
 
 gpa_prompt byte 'What is your GPA: ',0
 credit_prompt byte 'What is your credit: ',0
@@ -29,7 +24,8 @@ succ_str byte 'YOU MAY REGISTER!',0
 
 number_gpa dword ?
 number_credit dword ?
-numOfTrys dword 0
+numOfTrysGpa dword 0
+numOfTrysCredit dword 0
 
 .code
 main PROC
@@ -38,8 +34,13 @@ main PROC
 
 	L1:
 	call input_gpa
+	cmp number_gpa, 0
+	je quit_this
+
 	call input_credit
-	
+	cmp number_credit, 0
+	je quit_this
+
 	mov eax, number_gpa
 	mov ebx, number_credit
 	
@@ -72,10 +73,13 @@ main PROC
 	L_ok:
 	mov edx, offset succ_str
 
-
 	quit:
 	call writestring
 	call crlf
+
+	quit_this:
+	mov eax, 1
+
 	exit
 main ENDP
 
@@ -90,8 +94,8 @@ input_gpa proc
 	jl L1_exit
 
 	error:
-	inc numOfTrys
-	cmp numOfTrys, 3
+	inc numOfTrysGpa
+	cmp numOfTrysGpa, 3
 	jge quit
 	call crlf
 	mov edx, offset gpa_invalid
@@ -100,6 +104,10 @@ input_gpa proc
 
 	L1_exit:
 	mov number_gpa, eax
+	ret
+
+	quit:
+	mov number_gpa, 0
 	ret
 input_gpa endp
 
@@ -114,12 +122,22 @@ input_credit proc
 	jle L1_exit
 
 	error:
+	inc numOfTrysCredit
+	cmp numOfTrysCredit, 1
+	jge quit
 	call crlf
 	mov edx, offset credit_invalid
 	call writestring
 	jmp L1
 	L1_exit:
 	mov number_credit, eax
+	ret
+
+	quit:
+	mov number_gpa, 0
+	ret
+
+
 	ret
 input_credit endp
 
