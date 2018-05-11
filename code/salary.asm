@@ -1,4 +1,6 @@
 ; Salary program
+; Takes input of user_id and returns current salary and increased salary.
+; Handles invalid input.
 
 INCLUDE Irvine32.inc
 
