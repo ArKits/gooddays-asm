@@ -1,3 +1,7 @@
+; College Registeration
+; Takes input of GPA and Credit, and tells the user whether the config is correct or not.
+; Handles incorrect input and timesout after 3 wrong attempts.
+
 INCLUDE Irvine32.inc
 
 .data
