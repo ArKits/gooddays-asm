@@ -1,58 +1,37 @@
-; Number of Fibs Calculated Properly
-
 INCLUDE Irvine32.inc
 
-.386
-
-.model flat,stdcall
-.stack 4096
-ExitProcess PROTO, dwExitCode:DWORD
-
 .data
-count = 100
-last  = 1445263496
-fibo dword 1,1, count dup(0)
-str1 BYTE "ITS WORK!", 0
-str2 BYTE "NO WORK :(", 0
+arr DWORD 100 DUP(0)
+number_str BYTE "Number of correct fibs is:",0
+correct_str BYTE "Number of correct fibs is:" ,0
+carry1 DWORD 0
 
-
-.code
-
-FiboProco PROC
-mov esi, offset fibo
-mov eax, 0
-mov ecx, count
-ret
-FiboProco ENDP
-
-
+.code 
 main PROC
+mov arr, 1
+mov [arr+TYPE arr],1
+mov esi, OFFSET arr
+mov ebx, 1
+mov ecx, 100
+ 
+L1:
+mov eax,[esi]
+mov carry1, eax
+add esi, TYPE arr
+add eax, [esi]
+mov [esi+TYPE arr], eax
+add carry1, eax
+jc skip
+inc ebx
+skip:
+loop L1 
 
-	call FiboProco
+mov edx, OFFSET correct_str
+call WriteString
+mov eax, ebx
+call WriteDec
+call crlf
 
-	L1:
-	mov eax, [esi]
-	add eax, [esi + 4]
-	mov [esi + 8], eax
-	add esi, TYPE fibo
-	loop L1
-
-	cmp eax, last
-	jne notgood
-	mov edx, OFFSET str1
-	call WriteString
-	call Crlf
-	jmp quit
-
-	notgood:
-	mov edx, OFFSET str2
-	call WriteString
-	call Crlf
-
-
-	quit:
-
-    INVOKE ExitProcess,0
+INVOKE ExitProcess, 0
 main ENDP
-
 END main
